@@ -29,9 +29,11 @@ public class Triangle extends Figure implements Printing {
         return a + b + c;
     }
     @Override
-    public void print(){
+    public String print(){
         System.out.println("\nTriangle: \na = " + a + ", b = " + b + ", c = " + c);
-        System.out.println("area = " + area);
-        System.out.println("perimeter = " + perimeter);
+        System.out.println("Area = " + area);
+        System.out.println("Perimeter = " + perimeter);
+        return "Triangle: \na = " + a + ", b = " + b + ", c = " + c +
+                "\nArea = " + area + ", \nPerimeter = " + perimeter;
     }
 }

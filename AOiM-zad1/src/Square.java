@@ -26,9 +26,10 @@ public class Square extends Figure implements Printing {
         return 4 * a;
     }
     @Override
-    public void print(){
+    public String print(){
         System.out.println("\nSquare:\n a = " + a);
         System.out.println("Area = " + area);
         System.out.println("Perimeter = " + perimeter);
+        return "Square:\n a = " + a + "\nArea = " + area + "\nPerimeter = " + perimeter;
     }
 }

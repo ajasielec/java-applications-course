@@ -25,9 +25,10 @@ public class Circle extends Figure implements Printing {
         return 2 * Math.PI * radius;
     }
     @Override
-    public void print() {
+    public String print() {
         System.out.println("\nCircle:\n r = " + radius);
-        System.out.println("area = " + area);
-        System.out.println("perimeter = " + perimeter);
+        System.out.println("Area = " + area);
+        System.out.println("Perimeter = " + perimeter);
+        return "Circle:\n r = " + radius + "\nArea = " + area + "\nPerimeter = " + perimeter;
     }
 }

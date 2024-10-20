@@ -16,10 +16,14 @@ public class TreeDim implements Printing{
     }
 
     @Override
-    public void print() {
-        System.out.println("\n3D " + root.getClass().getSimpleName());
+    public String print() {
+        System.out.println("\nRoot: " + root.getClass().getSimpleName());
         System.out.println("Height: " + height);
         System.out.println("Volume: " + calculateVolume());
         System.out.println("Total Area: " + calculateTotalArea());
+        return "Root: " + root.getClass().getSimpleName() +
+                "\nHeight = " + height +
+                "\nVolume = " + calculateVolume() +
+                "\nTotal Area = " + calculateTotalArea();
     }
 }
