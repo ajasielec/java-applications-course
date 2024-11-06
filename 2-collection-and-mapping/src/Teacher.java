@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 public class Teacher implements Comparable<Teacher> {
     private String firstName;
     private String lastName;
@@ -40,7 +42,6 @@ public class Teacher implements Comparable<Teacher> {
         this.condition = condition;
     }
 
-
     public void printing(){
         System.out.println("Full name: " + firstName + " " + lastName +
                 ", Condition: " + condition + ", Year of birth: " + yearOfBirth +
@@ -49,6 +50,13 @@ public class Teacher implements Comparable<Teacher> {
 
     @Override
     public int compareTo(Teacher teacher) {
-        return this.lastName.compareTo(teacher.lastName);
+        if (teacher.firstName == null || teacher.firstName.isEmpty()) {
+            return this.lastName.compareTo(teacher.lastName);
+        }
+
+        if (this.firstName.compareTo(teacher.firstName) == 0) {
+            return lastName.compareTo(teacher.lastName);
+        }
+        return this.firstName.compareTo(teacher.firstName);
     }
 }

@@ -34,14 +34,18 @@ public class ClassTeacher {
 
     public void addSalary(Teacher teacher, int amount){
         if(teachers.contains(teacher)){
-            teacher.setSalary(amount);
+            teacher.setSalary(teacher.getSalary() + amount);
         } else {
             System.out.println("Teacher is not in this group!");
         }
     }
 
     public void removeTeacher(Teacher teacher){
-        teachers.remove(teacher);
+        if (teachers.contains(teacher)){
+            teachers.remove(teacher);
+        } else {
+            System.out.println("Teacher is not in this group!");
+        }
     }
 
     public void changeCondition(Teacher teacher, TeacherCondition newCondition){
@@ -53,18 +57,20 @@ public class ClassTeacher {
     }
 
     public Teacher searchTeacher(String lastName){
+        Teacher teacher = new Teacher("", lastName);
         for (int i = 0; i < teachers.size(); i++){
-            if(teachers.get(i).getLastName().equals(lastName)){
+            if(teachers.get(i).compareTo(teacher) == 0){
                 return teachers.get(i);
             }
         }
+        System.out.println("Teacher is not in this group!");
         return null;
     }
 
     public ArrayList<Teacher> searchPartial(String partial){
         ArrayList<Teacher> foundTeachers = new ArrayList<>();
         for (int i = 0; i < teachers.size(); i++){
-            if(teachers.get(i).getFirstName().contains(partial) || teachers.get(i).getLastName().contains(partial)){
+            if(teachers.get(i).getFirstName().toLowerCase().contains(partial.toLowerCase()) || teachers.get(i).getLastName().toLowerCase().contains(partial.toLowerCase())){
                 foundTeachers.add(teachers.get(i));
             }
         }
@@ -72,13 +78,9 @@ public class ClassTeacher {
     }
 
     public int countByCondition(TeacherCondition tc){
-        int counter = 0;
-        for (int i = 0; i < teachers.size(); i++){
-            if(teachers.get(i).getCondition() == tc){
-                counter++;
-            }
-        }
-        return counter;
+        return (int) teachers.stream()
+                .filter(teacher -> teacher.getCondition() == tc)
+                .count();
     }
 
     public void summary(){
@@ -87,15 +89,19 @@ public class ClassTeacher {
     }
 
     public void sortByName() {
-        teachers.sort(Comparator.comparing(t->t.getFirstName()));
+        Collections.sort(teachers);
     }
 
     public void sortBySalary(){
-        teachers.sort(Comparator.comparing(Teacher::getSalary).reversed());
+        Collections.sort(teachers, (t1, t2) -> {
+            return Integer.compare(t2.getSalary(), t1.getSalary());
+        });
     }
 
     public Teacher max(){
-        return Collections.max(teachers, Comparator.comparing(Teacher::getSalary));
+        return Collections.max(teachers, (t1, t2) -> {
+            return Integer.compare(t1.getSalary(), t2.getSalary());
+        });
     }
 
 }
