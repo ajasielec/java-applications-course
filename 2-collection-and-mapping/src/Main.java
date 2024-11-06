@@ -8,7 +8,7 @@ public class Main {
         // creating a class container
         ClassContainer container = new ClassContainer();
 
-        // adding teachers groups
+        // adding class to container
         container.addClass("Math", 4);
         container.addClass("English", 5);
         container.addClass("Music", 2);
@@ -55,15 +55,6 @@ public class Main {
         System.out.println("\nTeacher after changing a condition:");
         t2.printing();
 
-//        // removing class
-//        container.removeClass("Math");
-//        // container.summary();
-//
-//        // displaying empty classes
-//        List<ClassTeacher> emptyClasses = container.findEmpty();
-//        System.out.println("\nEmpty classes: ");
-//        emptyClasses.forEach(ClassTeacher::displayGroupName);
-
         // searching for a teacher
         System.out.println("\nSearch teacher result:");
         Teacher foundTeacher =  container.getClassTeacher("English").searchTeacher("Nowak");
@@ -97,8 +88,22 @@ public class Main {
         // max
         System.out.println("\nTeacher with max salary:");
         Teacher max = container.getClassTeacher("English").max();
-        max.printing();
+        if (max != null) max.printing();
 
+        // add class
+        container.addClass("Biology", 3);
+
+        // displaying empty classes
+        List<ClassTeacher> emptyClasses = container.findEmpty();
+        System.out.println("\nEmpty classes: ");
+        emptyClasses.forEach(ClassTeacher::displayGroupName);
+
+        // removing class
+        container.removeClass("Math");
+
+        // summary
+        System.out.println("\nGroups in container:");
+        container.summary();
     }
 
 }
