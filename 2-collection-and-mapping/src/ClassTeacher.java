@@ -99,6 +99,10 @@ public class ClassTeacher {
     }
 
     public Teacher max(){
+        if (teachers.isEmpty()){
+            System.out.println("Teachers list is empty!");
+            return null;
+        }
         return Collections.max(teachers, (t1, t2) -> {
             return Integer.compare(t1.getSalary(), t2.getSalary());
         });
