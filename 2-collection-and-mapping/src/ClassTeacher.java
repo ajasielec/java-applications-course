@@ -94,7 +94,7 @@ public class ClassTeacher {
 
     public void sortBySalary(){
         Collections.sort(teachers, (t1, t2) -> {
-            return Integer.compare(t2.getSalary(), t1.getSalary());
+            return Integer.compare(t1.getSalary(), t2.getSalary());
         });
     }
 
