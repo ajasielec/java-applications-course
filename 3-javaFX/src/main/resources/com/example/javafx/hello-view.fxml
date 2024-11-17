@@ -12,7 +12,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <Text stroke="#e10606" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Container List" wrappingWidth="102.48046875" />
+      <Text stroke="#e10606" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Container List" wrappingWidth="110.48046875" />
       <Button mnemonicParsing="false" text="Add Teacher Group" />
       <TableView prefHeight="165.0" prefWidth="391.0">
         <columns>
