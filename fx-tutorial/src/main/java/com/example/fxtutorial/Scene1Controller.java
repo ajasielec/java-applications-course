@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -14,25 +16,46 @@ import java.io.IOException;
 public class Scene1Controller {
 
     @FXML
-    TextField nameTextField;
+    private Label errorLabel;
+    @FXML
+    private TextField nameTextField;
+    @FXML
+    private TextField ageTextField;
+    @FXML
+    private Button loginButton;
+
+    int age;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     public void login(ActionEvent event) throws IOException {
-        String username = nameTextField.getText();
+        try {
+            String username = nameTextField.getText();
+            age = Integer.parseInt(ageTextField.getText());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Scene2.fxml"));
-        root = loader.load();
+            if (age >= 18){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Scene2.fxml"));
+                root = loader.load();
 
-        Scene2Controller scene2Controller = loader.getController();
-        scene2Controller.displayName(username);
+                Scene2Controller scene2Controller = loader.getController();
+                scene2Controller.displayName(username);
 
-        // changing scenes
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+                // changing scenes
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                errorLabel.setText("You must be over 18 years!");
+            }
+
+        }catch (NumberFormatException e){
+            errorLabel.setText("Age must be a number");
+        }
+        catch (Exception e) {
+            errorLabel.setText("error");
+        }
     }
 }
