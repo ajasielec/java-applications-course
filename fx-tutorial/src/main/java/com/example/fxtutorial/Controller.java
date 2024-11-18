@@ -22,15 +22,15 @@ public class Controller {
     }
 
     public void up(ActionEvent event) {
-        imageView.setLayoutY(y-=3);
+        imageView.setLayoutY(y-=5);
     }
     public void down(ActionEvent event) {
-        imageView.setLayoutY(y+=3);
+        imageView.setLayoutY(y+=5);
     }
     public void left(ActionEvent event) {
-        imageView.setLayoutX(x-=3);
+        imageView.setLayoutX(x-=5);
     }
     public void right(ActionEvent event) {
-        imageView.setLayoutX(x+=3);
+        imageView.setLayoutX(x+=5);
     }
 }

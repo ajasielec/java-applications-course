@@ -12,12 +12,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        Image icon = new Image(getClass().getResourceAsStream("/cat-icon.png"));
-        stage.getIcons().add(icon);
-        stage.setTitle("Stage Demo Program");
-        stage.setScene(new Scene(root));
-        stage.show();
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Image icon = new Image(getClass().getResourceAsStream("/cat-icon.png"));
+            stage.getIcons().add(icon);
+            stage.setTitle("Stage Demo Program");
+
+            Scene scene = new Scene(root);
+            String css = this.getClass().getResource("/application.css").toExternalForm();
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
