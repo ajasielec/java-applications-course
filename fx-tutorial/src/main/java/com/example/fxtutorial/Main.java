@@ -13,15 +13,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("scene1.fxml"));
             Image icon = new Image(getClass().getResourceAsStream("/cat-icon.png"));
             stage.getIcons().add(icon);
-            stage.setTitle("Stage Demo Program");
+            stage.setTitle("JavaFX tutorial");
 
-            Scene scene = new Scene(root);
-            String css = this.getClass().getResource("/application.css").toExternalForm();
-            scene.getStylesheets().add(css);
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.show();
         } catch(Exception e) {
             e.printStackTrace();
