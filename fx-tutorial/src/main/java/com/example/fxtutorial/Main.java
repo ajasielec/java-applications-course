@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("logout.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
             Image icon = new Image(getClass().getResourceAsStream("/cat-icon.png"));
             stage.getIcons().add(icon);
             stage.setTitle("JavaFX tutorial");
