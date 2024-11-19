@@ -18,6 +18,10 @@ public class AddGroupController {
     @FXML
     private Button submitButton;
 
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
     private ClassController classController;
 
     public void setClassController(ClassController classController) {
@@ -39,13 +43,12 @@ public class AddGroupController {
 
             // change scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("classContainer.fxml"));
-            Parent root = loader.load();
+            root = loader.load();
 
-            Stage stage = (Stage) submitButton.getScene().getWindow();
-            Scene scene = new Scene(root);
+            stage = (Stage) submitButton.getScene().getWindow();
+            scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

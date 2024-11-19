@@ -1,6 +1,7 @@
 package com.example.javafx;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClassController {
+    public static ObservableList<TeacherGroup> groupList = FXCollections.observableArrayList();
+
     @FXML
     private TableView<TeacherGroup> groupTable;
     @FXML
@@ -26,20 +27,18 @@ public class ClassController {
     @FXML
     private Button addButton;
 
-    private List<TeacherGroup> groups = new ArrayList<>();  // list with groups
 
     @FXML
     public void initialize() {
-        // TeacherGroup grub = new TeacherGroup("blibli", 8);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-         // groupTable.setItems(FXCollections.observableArrayList(groups));
+        groupTable.setItems(FXCollections.observableArrayList(groupList));
     }
 
     public void addGroup(TeacherGroup group){
-        groups.add(group);
-        groupTable.getItems().add(group); //dodanie grupy do tabeli
-        groupTable.setItems(FXCollections.observableArrayList(groups));
+        groupList.add(group);
+        // groupTable.getItems().add(group); //dodanie grupy do tabeli
+        groupTable.setItems(FXCollections.observableArrayList(groupList));
     }
 
 
