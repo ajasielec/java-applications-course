@@ -9,10 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 
 public class ClassController {
@@ -25,15 +28,67 @@ public class ClassController {
     @FXML
     private TableColumn<TeacherGroup, Integer> capacityColumn;
     @FXML
+    private TableColumn<TeacherGroup, Void> actionColumn;
+    @FXML
     private Button addButton;
 
 
     @FXML
     public void initialize() {
+        // connecting columns with data
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         groupTable.setItems(FXCollections.observableArrayList(groupList));
+
+        // column with actions config
+        addButtonToTable();
     }
+
+    private void addButtonToTable() {
+        Callback<TableColumn<TeacherGroup, Void>, TableCell<TeacherGroup, Void>> cellFactory = new Callback<TableColumn<TeacherGroup, Void>, TableCell<TeacherGroup, Void>>() {
+            @Override
+            public TableCell<TeacherGroup, Void> call(final TableColumn<TeacherGroup, Void> param) {
+                return new TableCell<TeacherGroup, Void>() { // Jawna deklaracja typów
+
+                    private final Button deleteButton = new Button("Delete");
+                    private final Button showButton = new Button("Show Teachers");
+
+                    {
+                        // Konfiguracja przycisku "Delete"
+                        deleteButton.setOnAction(event -> {
+                            TeacherGroup group = getTableView().getItems().get(getIndex());
+                            groupList.remove(group); // Usunięcie z listy
+                            groupTable.refresh();
+                            initialize();
+                        });
+
+                        // Konfiguracja przycisku "Show Teachers"
+                        showButton.setOnAction(event -> {
+                            TeacherGroup group = getTableView().getItems().get(getIndex());
+                            System.out.println("Showing teachers for group: " + group.getName());
+                            // Możesz tutaj dodać logikę, np. przejście do innej sceny
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            // Dodanie przycisków do komórki
+                            HBox hBox = new HBox(5, deleteButton, showButton);
+                            setGraphic(hBox);
+                        }
+                    }
+                };
+            }
+        };
+
+        actionColumn.setCellFactory(cellFactory);
+    }
+
+
 
     public void addGroup(TeacherGroup group){
         groupList.add(group);

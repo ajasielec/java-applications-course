@@ -19,7 +19,7 @@
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="121.0" text="Group name" />
           <TableColumn fx:id="capacityColumn" prefWidth="115.0" text="Capacity" />
-            <TableColumn prefWidth="156.0" text="Action" />
+          <TableColumn fx:id="actionColumn" prefWidth="156.0" text="Action" />
         </columns>
       </TableView>
    </children>
