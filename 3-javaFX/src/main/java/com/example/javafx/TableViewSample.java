@@ -17,14 +17,14 @@ import javafx.stage.Stage;
 
 public class TableViewSample extends Application {
 
-    private TableView<ClassTeacher> table = new TableView<ClassTeacher>();
-    private final ObservableList<ClassTeacher> data =
+    private TableView<TeacherGroup> table = new TableView<TeacherGroup>();
+    private final ObservableList<TeacherGroup> data =
             FXCollections.observableArrayList(
-            new ClassTeacher("Math", 10),
-            new ClassTeacher("Music", 12),
-            new ClassTeacher("English", 6),
-            new ClassTeacher("Science", 16),
-            new ClassTeacher("Biology", 3)
+            new TeacherGroup("Math", 10),
+            new TeacherGroup("Music", 12),
+            new TeacherGroup("English", 6),
+            new TeacherGroup("Science", 16),
+            new TeacherGroup("Biology", 3)
             );
 
     public static void main(String[] args) {
@@ -46,17 +46,17 @@ public class TableViewSample extends Application {
         TableColumn groupNameCol = new TableColumn("Group name");
         groupNameCol.setMinWidth(150);
         groupNameCol.setCellValueFactory(
-                new PropertyValueFactory<ClassTeacher, String>("GroupName"));
+                new PropertyValueFactory<TeacherGroup, String>("GroupName"));
 
         TableColumn capacityCol = new TableColumn("Capacity");
         capacityCol.setMinWidth(100);
         capacityCol.setCellValueFactory(
-                new PropertyValueFactory<ClassTeacher, String>("capacity"));
+                new PropertyValueFactory<TeacherGroup, String>("capacity"));
 
         TableColumn actionCol = new TableColumn("Action");
         actionCol.setMinWidth(150);
         actionCol.setCellValueFactory(
-                new PropertyValueFactory<ClassTeacher, String>("action"));
+                new PropertyValueFactory<TeacherGroup, String>("action"));
 
         table.setItems(data);
         table.getColumns().addAll(groupNameCol, capacityCol, actionCol);
