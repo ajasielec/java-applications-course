@@ -122,6 +122,11 @@ public class TeachersController {
     public void searchTeacher(ActionEvent actionEvent) {
     }
 
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
+        teacherTable.setItems(FXCollections.observableArrayList(teachers));
+    }
+
     public void addTeacher(ActionEvent actionEvent) {
         // changing scenes
         try{
@@ -129,7 +134,7 @@ public class TeachersController {
             Parent root = loader.load();
 
             AddTeacherController controller = loader.getController();
-            // controller.setClassController(this);
+            controller.setClassController(this);
 
             Stage stage = (Stage) teacherTable.getScene().getWindow();
             Scene scene = new Scene(root);
