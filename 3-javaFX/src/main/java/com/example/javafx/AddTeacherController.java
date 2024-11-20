@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -56,6 +57,11 @@ public class AddTeacherController {
         conditionMenu.setText("Sick");
     }
 
+    public void setConditionDelegation(ActionEvent actionEvent) {
+        selectedCondition = TeacherCondition.delegation;
+        conditionMenu.setText("Delegation");
+    }
+
     @FXML
     void submit(ActionEvent actionEvent) {
         try{
@@ -64,10 +70,10 @@ public class AddTeacherController {
             String lastName = lastNameTextField.getText();
             int birthYear = Integer.parseInt(birthYearTextField.getText());
             int salary = Integer.parseInt(salaryTextField.getText());
-            //TeacherCondition condition = conditionMenu.getText();
+            TeacherCondition condition = selectedCondition;
 
             // creating new teacher
-            Teacher newTeacher = new Teacher(firstName, lastName, selectedCondition, salary, birthYear);
+            Teacher newTeacher = new Teacher(firstName, lastName, condition, salary, birthYear);
 
             // adding new teacher to table
             teachersController.addTeacher(newTeacher);
@@ -84,9 +90,10 @@ public class AddTeacherController {
             stage.setScene(scene);
             stage.show();
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            showError("Invalid input. Birth year and salary must be a number.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -103,6 +110,14 @@ public class AddTeacherController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void showError(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 
 }

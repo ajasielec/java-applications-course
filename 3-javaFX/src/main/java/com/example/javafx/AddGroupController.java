@@ -6,9 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AddGroupController {
     @FXML
@@ -49,13 +52,30 @@ public class AddGroupController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            showError("Invalid input. Max teachers must be a number.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void closeForm(ActionEvent actionEvent) {
+    public void closeForm(ActionEvent actionEvent) throws IOException {
+        // change scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("classContainer.fxml"));
+        root = loader.load();
 
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void showError(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 
 }

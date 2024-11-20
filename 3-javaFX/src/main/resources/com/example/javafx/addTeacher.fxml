@@ -17,18 +17,19 @@
       </Label>
       <Label layoutX="170.0" layoutY="105.0" text="First Name:" />
       <TextField fx:id="firstNameTextField" layoutX="252.0" layoutY="101.0" promptText="Enter First Name" />
-      <Label layoutX="170.0" layoutY="192.0" text="Birth Year:" />
-      <TextField fx:id="birthYearTextField" layoutX="252.0" layoutY="188.0" promptText="Enter Birth Year" />
       <Label layoutX="170.0" layoutY="146.0" text="Last Name:" />
       <TextField fx:id="lastNameTextField" layoutX="252.0" layoutY="142.0" promptText="Enter Last Name" />
+      <Label layoutX="170.0" layoutY="192.0" text="Birth Year:" />
+      <TextField fx:id="birthYearTextField" layoutX="252.0" layoutY="188.0" promptText="Enter Birth Year" />
       <Label layoutX="170.0" layoutY="243.0" text="Salary:" />
       <TextField fx:id="salaryTextField" layoutX="252.0" layoutY="239.0" promptText="Enter Salary" />
       <Label layoutX="170.0" layoutY="290.0" text="Condition:" />
       <MenuButton fx:id="conditionMenu" layoutX="252.0" layoutY="286.0" mnemonicParsing="false" text="Select Condition">
         <items>
-          <MenuItem mnemonicParsing="false" text="Present" onAction="#setConditionPresent"/>
-          <MenuItem mnemonicParsing="false" text="Absent" onAction="#setConditionAbsent"/>
-            <MenuItem mnemonicParsing="false" text="Sick" onAction="#setConditionSick"/>
+          <MenuItem mnemonicParsing="false" onAction="#setConditionPresent" text="Present" />
+          <MenuItem mnemonicParsing="false" onAction="#setConditionAbsent" text="Absent" />
+            <MenuItem mnemonicParsing="false" onAction="#setConditionSick" text="Sick" />
+            <MenuItem mnemonicParsing="false" onAction="#setConditionDelegation" text="Delegation" />
         </items>
       </MenuButton>
       <Button fx:id="submitButton" layoutX="474.0" layoutY="189.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
