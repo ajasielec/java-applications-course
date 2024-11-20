@@ -10,6 +10,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class AddTeacherController {
 
     @FXML
@@ -28,9 +30,30 @@ public class AddTeacherController {
     private Parent root;
 
     private TeachersController teachersController;
+    private TeacherCondition selectedCondition = TeacherCondition.absent;
+    private TeacherGroup currentGroup;
+
+    public void setCurrentGroup(TeacherGroup currentGroup) {
+        this.currentGroup = currentGroup;
+    }
 
     public void setClassController(TeachersController teachersController) {
         this.teachersController = teachersController;
+    }
+
+    public void setConditionPresent(ActionEvent actionEvent) {
+        selectedCondition = TeacherCondition.present;
+        conditionMenu.setText("Present");
+    }
+
+    public void setConditionAbsent(ActionEvent actionEvent) {
+        selectedCondition = TeacherCondition.absent;
+        conditionMenu.setText("Absent");
+    }
+
+    public void setConditionSick(ActionEvent actionEvent) {
+        selectedCondition = TeacherCondition.sick;
+        conditionMenu.setText("Sick");
     }
 
     @FXML
@@ -44,7 +67,7 @@ public class AddTeacherController {
             //TeacherCondition condition = conditionMenu.getText();
 
             // creating new teacher
-            Teacher newTeacher = new Teacher(firstName, lastName, TeacherCondition.absent, salary, birthYear);
+            Teacher newTeacher = new Teacher(firstName, lastName, selectedCondition, salary, birthYear);
 
             // adding new teacher to table
             teachersController.addTeacher(newTeacher);
@@ -52,9 +75,9 @@ public class AddTeacherController {
             //change scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
             root = loader.load();
-
-            TeachersController controller = loader.getController();
-            // controller.displayTitle(group.getName());
+            teachersController = loader.getController();
+            teachersController.setCurrentGroup(currentGroup);
+            teachersController.displayTitle(currentGroup.getName());
 
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -67,7 +90,19 @@ public class AddTeacherController {
         }
     }
 
-    public void closeForm(ActionEvent actionEvent) {
+    public void closeForm(ActionEvent actionEvent) throws IOException {
+        // change scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
+        root = loader.load();
 
+        teachersController = loader.getController();
+        teachersController.setCurrentGroup(currentGroup);
+        teachersController.displayTitle(currentGroup.getName());
+
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
+
 }

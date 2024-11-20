@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.AddTeacherController">
    <children>
       <Label layoutX="184.0" layoutY="14.0" text="Add teacher form">
@@ -25,11 +24,11 @@
       <Label layoutX="170.0" layoutY="243.0" text="Salary:" />
       <TextField fx:id="salaryTextField" layoutX="252.0" layoutY="239.0" promptText="Enter Salary" />
       <Label layoutX="170.0" layoutY="290.0" text="Condition:" />
-      <MenuButton fx:id="conditionMenu" layoutX="252.0" layoutY="286.0" mnemonicParsing="false" text="Choose Condition">
+      <MenuButton fx:id="conditionMenu" layoutX="252.0" layoutY="286.0" mnemonicParsing="false" text="Select Condition">
         <items>
-          <MenuItem mnemonicParsing="false" text="Present" />
-          <MenuItem mnemonicParsing="false" text="Absent" />
-            <MenuItem mnemonicParsing="false" text="Sick" />
+          <MenuItem mnemonicParsing="false" text="Present" onAction="#setConditionPresent"/>
+          <MenuItem mnemonicParsing="false" text="Absent" onAction="#setConditionAbsent"/>
+            <MenuItem mnemonicParsing="false" text="Sick" onAction="#setConditionSick"/>
         </items>
       </MenuButton>
       <Button fx:id="submitButton" layoutX="474.0" layoutY="189.0" mnemonicParsing="false" onAction="#submit" text="Submit" />

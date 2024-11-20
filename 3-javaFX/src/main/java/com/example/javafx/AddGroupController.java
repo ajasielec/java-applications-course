@@ -54,5 +54,8 @@ public class AddGroupController {
         }
     }
 
+    public void closeForm(ActionEvent actionEvent) {
+
+    }
 
 }

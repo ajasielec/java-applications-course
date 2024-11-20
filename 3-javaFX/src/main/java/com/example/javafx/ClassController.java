@@ -74,10 +74,10 @@ public class ClassController {
                             // changing scenes
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
-                                Parent root = null;
-                                root = loader.load();
+                                Parent root = loader.load();
 
                                 TeachersController controller = loader.getController();
+                                controller.setCurrentGroup(group);
                                 controller.displayTitle(group.getName());
 
                                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

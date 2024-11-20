@@ -19,6 +19,7 @@ import java.io.IOException;
 public class TeachersController {
 
     public static ObservableList<Teacher> teachers = FXCollections.observableArrayList();
+    private TeacherGroup currentGroup;
    // public static TeacherGroup selectedTeacherGroup;
 
     @FXML
@@ -44,8 +45,13 @@ public class TeachersController {
         // selectedTeacherGroup.addTeacher(teachers.get(0));
     }
 
+    public void setCurrentGroup(TeacherGroup group) {
+        this.currentGroup = group;
+    }
+
     @FXML
     public void initialize() {
+        displayTitle(String.valueOf(currentGroup));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         conditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
@@ -63,22 +69,58 @@ public class TeachersController {
                 return new TableCell<Teacher, Void>() { // Jawna deklaracja typów
 
                     private final Button deleteButton = new Button("Delete");
-                    private final Button manageButton = new Button("Manage");
+                    private final MenuButton manageButton = new MenuButton("Manage");
 
                     {
                         // Konfiguracja przycisku "Delete"
                         deleteButton.setOnAction(event -> {
-                            Teacher group = getTableView().getItems().get(getIndex());
-                            teachers.remove(group); // Usunięcie z listy
-                            teacherTable.refresh();
-                            initialize();
+                            Teacher teacher = getTableView().getItems().get(getIndex());
+                            teachers.remove(teacher); // Usunięcie z listy
+                            teacherTable.setItems(FXCollections.observableArrayList(teachers));
+                            displayTitle(currentGroup.getName());
                         });
 
-                        // Konfiguracja przycisku "Manage"
-                        manageButton.setOnAction(event -> {
-                            System.out.println("Manage Teachers");
-                            // logika
+                        // Manage elements
+                        MenuItem addSalaryItem = new MenuItem("Add Salary");
+                        MenuItem changeConditionItem = new MenuItem("Change Condition");
+
+                        // add salary action
+                        addSalaryItem.setOnAction(event -> {
+                            Teacher teacher = getTableView().getItems().get(getIndex());
+                            TextInputDialog dialog = new TextInputDialog();
+                            dialog.setTitle("Add Salary");
+                            dialog.setHeaderText("Enter the amount to be added:");
+                            dialog.setContentText("Amount:");
+
+                            dialog.showAndWait().ifPresent(input->{
+                                try{
+                                    int amount = Integer.parseInt(input);
+                                    teacher.setSalary(amount + teacher.getSalary());
+                                    teacherTable.refresh();
+                                    displayTitle(currentGroup.getName());
+
+                                } catch (NumberFormatException  e) {
+                                    showError("Invalid amount. Please enter a number.");
+                                }
+                            });
                         });
+
+                        // change condition action
+                        changeConditionItem.setOnAction(event -> {
+                            Teacher teacher = getTableView().getItems().get(getIndex());
+                            ChoiceDialog<TeacherCondition> dialog = new ChoiceDialog<>(teacher.getCondition(), TeacherCondition.values());
+                            dialog.setTitle("Change Condition");
+                            dialog.setHeaderText("Select a new condition:");
+                            dialog.setContentText("Condition:");
+
+                            dialog.showAndWait().ifPresent(newCondition -> {
+                                teacher.setCondition(newCondition);
+                                teacherTable.refresh();
+                            });
+                        });
+
+                        // add elements to menu button
+                        manageButton.getItems().addAll(addSalaryItem, changeConditionItem);
                     }
 
                     @Override
@@ -99,6 +141,13 @@ public class TeachersController {
         actionColumn.setCellFactory(cellFactory);
     }
 
+    private void showError(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
+    }
 
     public void displayTitle(String title) {
         titleLabel.setText("Teachers in group \"" + title + "\"");
@@ -125,6 +174,9 @@ public class TeachersController {
     public void addTeacher(Teacher teacher) {
         teachers.add(teacher);
         teacherTable.setItems(FXCollections.observableArrayList(teachers));
+        if(currentGroup != null) {
+            displayTitle(currentGroup.getName());
+        }
     }
 
     public void addTeacher(ActionEvent actionEvent) {
@@ -135,6 +187,7 @@ public class TeachersController {
 
             AddTeacherController controller = loader.getController();
             controller.setClassController(this);
+            controller.setCurrentGroup(currentGroup);
 
             Stage stage = (Stage) teacherTable.getScene().getWindow();
             Scene scene = new Scene(root);
