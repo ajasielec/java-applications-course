@@ -17,6 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
+
 
 public class ClassController {
     public static ObservableList<TeacherGroup> groupList = FXCollections.observableArrayList();
@@ -31,6 +33,10 @@ public class ClassController {
     private TableColumn<TeacherGroup, Void> actionColumn;
     @FXML
     private Button addButton;
+
+    static{
+        groupList.add(new TeacherGroup("Math", 12));
+    }
 
 
     @FXML
@@ -66,7 +72,24 @@ public class ClassController {
                         showButton.setOnAction(event -> {
                             TeacherGroup group = getTableView().getItems().get(getIndex());
                             System.out.println("Showing teachers for group: " + group.getName());
-                            // Możesz tutaj dodać logikę, np. przejście do innej sceny
+                            // changing scenes
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
+                                System.out.println("Ładowanie pliku FXML...");
+                                Parent root = null;
+                                root = loader.load();
+
+                                TeachersController controller = loader.getController();
+                                controller.displayTitle(group.getName());
+
+                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+
                         });
                     }
 
