@@ -71,11 +71,9 @@ public class ClassController {
                         // Konfiguracja przycisku "Show Teachers"
                         showButton.setOnAction(event -> {
                             TeacherGroup group = getTableView().getItems().get(getIndex());
-                            System.out.println("Showing teachers for group: " + group.getName());
                             // changing scenes
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
-                                System.out.println("Ładowanie pliku FXML...");
                                 Parent root = null;
                                 root = loader.load();
 

@@ -38,4 +38,14 @@ public class TeacherGroup {
             teachers.add(new Teacher());
         }
     }
+
+    public void addTeacher(Teacher teacher){
+        if (teachers.size() >= maxTeachers){
+            System.out.println("Teacher is over max teachers!");
+        }else if(teachers.contains(teacher)){
+            System.out.println("Teacher already exists!");
+        } else {
+            teachers.add(teacher);
+        }
+    }
 }
