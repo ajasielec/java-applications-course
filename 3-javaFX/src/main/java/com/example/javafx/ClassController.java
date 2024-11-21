@@ -23,6 +23,7 @@ import java.io.IOException;
 public class ClassController {
     public static ObservableList<TeacherGroup> groupList = FXCollections.observableArrayList();
 
+
     @FXML
     private TableView<TeacherGroup> groupTable;
     @FXML
@@ -33,6 +34,13 @@ public class ClassController {
     private TableColumn<TeacherGroup, Void> actionColumn;
     @FXML
     private Button addButton;
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    // private TeachersController teachersController;
+    private AddGroupController addGroupController;
 
 
     static{
@@ -74,17 +82,15 @@ public class ClassController {
                         // Konfiguracja przycisku "Show Teachers"
                         showButton.setOnAction(event -> {
                             TeacherGroup group = getTableView().getItems().get(getIndex());
-                            // changing scenes
+                            GroupManager.setCurrentGroup(group);
+
                             try {
+                                // changing scenes
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
-                                Parent root = loader.load();
+                                root = loader.load();
 
-                                TeachersController controller = loader.getController();
-                                controller.setCurrentGroup(group);
-                                controller.displayTitle(group.getName());
-
-                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                Scene scene = new Scene(root);
+                                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                scene = new Scene(root);
                                 stage.setScene(scene);
                                 stage.show();
                             }catch (IOException e){
@@ -124,14 +130,14 @@ public class ClassController {
     void addTeacherGroup(ActionEvent event) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addGroup.fxml"));
-            Parent root = loader.load();
+            root = loader.load();
 
             // getting addGroupController
-            AddGroupController controller = loader.getController();
-            controller.setClassController(this);
+            addGroupController = loader.getController();
+            addGroupController.setClassController(this);
 
-            Stage stage = (Stage) groupTable.getScene().getWindow();
-            Scene scene = new Scene(root);
+            stage = (Stage) groupTable.getScene().getWindow();
+            scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 

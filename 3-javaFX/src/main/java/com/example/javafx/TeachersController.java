@@ -18,9 +18,7 @@ import java.io.IOException;
 
 public class TeachersController {
 
-    public static ObservableList<Teacher> teachers = FXCollections.observableArrayList();
-    private TeacherGroup currentGroup;
-    // private ObservableList<Teacher> teachers = currentGroup.getTeachers();
+    TeacherGroup currentGroup = GroupManager.getCurrentGroup();
 
     @FXML
     Label titleLabel;
@@ -45,21 +43,22 @@ public class TeachersController {
         // selectedTeacherGroup.addTeacher(teachers.get(0));
     }
 
-    public void setCurrentGroup(TeacherGroup group) {
-        this.currentGroup = group;
-    }
 
     @FXML
     public void initialize() {
+        if (currentGroup != null) {
+            firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+            lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+            conditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
+            salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
+            birthYearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
 
-        displayTitle(String.valueOf(currentGroup));
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        conditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
-        salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        birthYearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+            displayTitle(currentGroup.getName());
 
-        teacherTable.setItems(FXCollections.observableArrayList(teachers));
+            teacherTable.setItems(currentGroup.getTeachers());
+        } else {
+            showError("Teacher Group is null");
+        }
 
         addButtons();
     }
@@ -77,8 +76,8 @@ public class TeachersController {
                         // Konfiguracja przycisku "Delete"
                         deleteButton.setOnAction(event -> {
                             Teacher teacher = getTableView().getItems().get(getIndex());
-                            teachers.remove(teacher); // Usunięcie z listy
-                            teacherTable.setItems(FXCollections.observableArrayList(teachers));
+                            currentGroup.getTeachers().remove(teacher); // Usunięcie z listy
+                            teacherTable.setItems(FXCollections.observableArrayList(currentGroup.getTeachers()));
                             displayTitle(currentGroup.getName());
                         });
 
@@ -176,11 +175,11 @@ public class TeachersController {
     public void addTeacher(Teacher teacher) {
         if (currentGroup.getTeachers().size() >= currentGroup.getMaxTeachers()) {
             showError("Cannot add teacher: maximum capacity reached.");
-        } else if (teachers.contains(teacher)) {
+        } else if (currentGroup.getTeachers().contains(teacher)) {
             showError("Cannot add teacher: teacher already exists!");
         } else {
-            teachers.add(teacher);
-            teacherTable.setItems(teachers);
+            currentGroup.getTeachers().add(teacher);
+            teacherTable.setItems(currentGroup.getTeachers());
             displayTitle(currentGroup.getName());
             teacherTable.refresh();
         }
@@ -193,9 +192,7 @@ public class TeachersController {
             Parent root = loader.load();
 
             AddTeacherController controller = loader.getController();
-            System.out.println("Controller from loader: " + (controller != null));
             controller.setClassController(this);
-            controller.setCurrentGroup(currentGroup);
 
             Stage stage = (Stage) teacherTable.getScene().getWindow();
             Scene scene = new Scene(root);

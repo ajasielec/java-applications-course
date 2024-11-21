@@ -14,7 +14,7 @@ public class TeacherGroup {
     private final StringProperty name = new SimpleStringProperty();
     private final IntegerProperty maxTeachers = new SimpleIntegerProperty();
     private final IntegerProperty capacity = new SimpleIntegerProperty();
-    private final ObservableList<Teacher> teachers = FXCollections.observableArrayList();
+    private ObservableList<Teacher> teachers = FXCollections.observableArrayList();
 
 
     public TeacherGroup(String name, int maxTeachers) {

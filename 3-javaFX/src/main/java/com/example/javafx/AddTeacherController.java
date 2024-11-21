@@ -32,12 +32,8 @@ public class AddTeacherController {
 
     private TeachersController teachersController;
     private TeacherCondition selectedCondition = TeacherCondition.absent;
-    private TeacherGroup currentGroup;
+    private TeacherGroup currentGroup = GroupManager.getCurrentGroup();
 
-    public void setCurrentGroup(TeacherGroup currentGroup) {
-        System.out.println("TeachersController set: " + (teachersController != null));
-        this.currentGroup = currentGroup;
-    }
 
     public void setClassController(TeachersController teachersController) {
         this.teachersController = teachersController;
@@ -83,14 +79,14 @@ public class AddTeacherController {
             }
 
             // adding new teacher to table
-            teachersController.addTeacher(newTeacher);
+            // teachersController.addTeacher(newTeacher);
 
             //change scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
             root = loader.load();
-            teachersController = loader.getController();
-            teachersController.setCurrentGroup(currentGroup);
-            teachersController.displayTitle(currentGroup.getName());
+            // teachersController = loader.getController();
+            // teachersController.setCurrentGroup(currentGroup);
+            // teachersController.displayTitle(currentGroup.getName());
 
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -109,9 +105,9 @@ public class AddTeacherController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
         root = loader.load();
 
-        teachersController = loader.getController();
-        teachersController.setCurrentGroup(currentGroup);
-        teachersController.displayTitle(currentGroup.getName());
+        // teachersController = loader.getController();
+        // teachersController.setCurrentGroup(currentGroup);
+        // teachersController.displayTitle(currentGroup.getName());
 
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
