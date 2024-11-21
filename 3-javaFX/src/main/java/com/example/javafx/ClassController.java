@@ -34,17 +34,20 @@ public class ClassController {
     @FXML
     private Button addButton;
 
+
     static{
-        groupList.add(new TeacherGroup("Math", 12));
+        groupList.add(new TeacherGroup("Math", 3));
+        groupList.add(new TeacherGroup("English", 5));
     }
 
 
     @FXML
     public void initialize() {
         // connecting columns with data
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-        groupTable.setItems(FXCollections.observableArrayList(groupList));
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        capacityColumn.setCellValueFactory(cellData -> cellData.getValue().capacityProperty().asObject());
+
+        groupTable.setItems(groupList);
 
         // column with actions config
         addButtonToTable();
@@ -87,7 +90,6 @@ public class ClassController {
                             }catch (IOException e){
                                 e.printStackTrace();
                             }
-
                         });
                     }
 

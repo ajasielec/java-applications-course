@@ -35,6 +35,7 @@ public class AddTeacherController {
     private TeacherGroup currentGroup;
 
     public void setCurrentGroup(TeacherGroup currentGroup) {
+        System.out.println("TeachersController set: " + (teachersController != null));
         this.currentGroup = currentGroup;
     }
 
@@ -64,6 +65,7 @@ public class AddTeacherController {
 
     @FXML
     void submit(ActionEvent actionEvent) {
+        System.out.println("Current group: " + currentGroup);
         try{
             // user input
             String firstName = firstNameTextField.getText();
@@ -74,6 +76,11 @@ public class AddTeacherController {
 
             // creating new teacher
             Teacher newTeacher = new Teacher(firstName, lastName, condition, salary, birthYear);
+
+            // adding teacher to current group
+            if (currentGroup != null) {
+                currentGroup.addTeacher(newTeacher);
+            }
 
             // adding new teacher to table
             teachersController.addTeacher(newTeacher);

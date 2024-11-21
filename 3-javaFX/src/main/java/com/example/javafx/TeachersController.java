@@ -20,7 +20,7 @@ public class TeachersController {
 
     public static ObservableList<Teacher> teachers = FXCollections.observableArrayList();
     private TeacherGroup currentGroup;
-   // public static TeacherGroup selectedTeacherGroup;
+    // private ObservableList<Teacher> teachers = currentGroup.getTeachers();
 
     @FXML
     Label titleLabel;
@@ -41,7 +41,7 @@ public class TeachersController {
     private TableColumn<Teacher, Void> actionColumn;
 
     static {
-        teachers.add(new Teacher("Ewa", "Werner", TeacherCondition.absent, 1987, 10000));
+        // teachers.add(new Teacher("Ewa", "Werner", TeacherCondition.absent, 1987, 10000));
         // selectedTeacherGroup.addTeacher(teachers.get(0));
     }
 
@@ -51,12 +51,14 @@ public class TeachersController {
 
     @FXML
     public void initialize() {
+
         displayTitle(String.valueOf(currentGroup));
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         conditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
         salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
         birthYearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+
         teacherTable.setItems(FXCollections.observableArrayList(teachers));
 
         addButtons();
@@ -172,10 +174,15 @@ public class TeachersController {
     }
 
     public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
-        teacherTable.setItems(FXCollections.observableArrayList(teachers));
-        if(currentGroup != null) {
+        if (currentGroup.getTeachers().size() >= currentGroup.getMaxTeachers()) {
+            showError("Cannot add teacher: maximum capacity reached.");
+        } else if (teachers.contains(teacher)) {
+            showError("Cannot add teacher: teacher already exists!");
+        } else {
+            teachers.add(teacher);
+            teacherTable.setItems(teachers);
             displayTitle(currentGroup.getName());
+            teacherTable.refresh();
         }
     }
 
@@ -186,6 +193,7 @@ public class TeachersController {
             Parent root = loader.load();
 
             AddTeacherController controller = loader.getController();
+            System.out.println("Controller from loader: " + (controller != null));
             controller.setClassController(this);
             controller.setCurrentGroup(currentGroup);
 

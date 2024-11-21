@@ -39,10 +39,10 @@ public class AddGroupController {
             int maxTeachers = Integer.parseInt(maxTeachersField.getText());
 
             // creating new group
-            TeacherGroup newGroup = new TeacherGroup(name, maxTeachers);
+            TeacherGroup selectedGroup  = new TeacherGroup(name, maxTeachers);
 
             // adding new group to table
-            classController.addGroup(newGroup);
+            classController.addGroup(selectedGroup);
 
             // change scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("classContainer.fxml"));

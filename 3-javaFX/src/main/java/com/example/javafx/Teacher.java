@@ -1,5 +1,7 @@
 package com.example.javafx;
 
+import java.util.Objects;
+
 public class Teacher {
     private String firstName;
     private String lastName;
@@ -42,4 +44,19 @@ public class Teacher {
     public void setCondition(TeacherCondition condition) {
         this.condition = condition;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // Sprawdzanie referencji
+        if (obj == null || getClass() != obj.getClass()) return false; // Sprawdzenie typu obiektu
+        Teacher teacher = (Teacher) obj;
+        return firstName.equals(teacher.firstName) && lastName.equals(teacher.lastName); // Porównanie po imieniu i nazwisku
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName); // Hash na podstawie imienia i nazwiska
+    }
+
+
 }
