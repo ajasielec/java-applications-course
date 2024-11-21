@@ -62,7 +62,6 @@ public class TeacherGroup {
     }
 
     public int getCapacity() {
-        // return ((double)entry.getValue().getTeacherCount() / (double)entry.getValue().maxTeachers() * 100;);
         return capacity.get();
     }
 
@@ -82,6 +81,16 @@ public class TeacherGroup {
         } else {
             teachers.add(teacher);
         }
+    }
+
+    public ArrayList<Teacher> searchPartial(String partial){
+        ArrayList<Teacher> foundTeachers = new ArrayList<>();
+        for (int i = 0; i < teachers.size(); i++){
+            if(teachers.get(i).getFirstName().toLowerCase().contains(partial.toLowerCase()) || teachers.get(i).getLastName().toLowerCase().contains(partial.toLowerCase())){
+                foundTeachers.add(teachers.get(i));
+            }
+        }
+        return foundTeachers;
     }
 
     private void showError(String s) {

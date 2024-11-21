@@ -1,11 +1,9 @@
 package com.example.javafx;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class TeachersController {
 
@@ -22,6 +20,9 @@ public class TeachersController {
 
     @FXML
     Label titleLabel;
+
+    @FXML
+    TextField searchTextField;
 
     @FXML
     private TableView<Teacher> teacherTable;
@@ -37,12 +38,6 @@ public class TeachersController {
     private TableColumn<Teacher, Integer> birthYearColumn;
     @FXML
     private TableColumn<Teacher, Void> actionColumn;
-
-    static {
-        // teachers.add(new Teacher("Ewa", "Werner", TeacherCondition.absent, 1987, 10000));
-        // selectedTeacherGroup.addTeacher(teachers.get(0));
-    }
-
 
     @FXML
     public void initialize() {
@@ -142,6 +137,39 @@ public class TeachersController {
         actionColumn.setCellFactory(cellFactory);
     }
 
+
+    public void displayTitle(String groupName) {
+        titleLabel.setText("Teachers in group \"" + groupName + "\"");
+    }
+
+    public void returnToPreviousPages(ActionEvent actionEvent) {
+        changeScene(actionEvent, "classContainer.fxml");
+    }
+
+    public void searchTeacher(ActionEvent actionEvent) {
+        String input = searchTextField.getText();
+        ArrayList<Teacher> foundTeachers = currentGroup.searchPartial(input);
+        teacherTable.setItems(FXCollections.observableArrayList(foundTeachers));
+        addButtons();
+    }
+
+    public void addTeacher(ActionEvent actionEvent) {
+        changeScene(actionEvent, "addTeacher.fxml");
+    }
+
+    private void changeScene(ActionEvent actionEvent, String fxml) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            Stage stage = (Stage) teacherTable.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
     private void showError(String s) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -150,57 +178,4 @@ public class TeachersController {
         alert.showAndWait();
     }
 
-    public void displayTitle(String title) {
-        titleLabel.setText("Teachers in group \"" + title + "\"");
-    }
-
-    public void returnToPreviousPages(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("classContainer.fxml"));
-            Parent root = null;
-            root = loader.load();
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void searchTeacher(ActionEvent actionEvent) {
-    }
-
-    public void addTeacher(Teacher teacher) {
-        if (currentGroup.getTeachers().size() >= currentGroup.getMaxTeachers()) {
-            showError("Cannot add teacher: maximum capacity reached.");
-        } else if (currentGroup.getTeachers().contains(teacher)) {
-            showError("Cannot add teacher: teacher already exists!");
-        } else {
-            currentGroup.getTeachers().add(teacher);
-            teacherTable.setItems(currentGroup.getTeachers());
-            displayTitle(currentGroup.getName());
-            teacherTable.refresh();
-        }
-    }
-
-    public void addTeacher(ActionEvent actionEvent) {
-        // changing scenes
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("addTeacher.fxml"));
-            Parent root = loader.load();
-
-            AddTeacherController controller = loader.getController();
-            controller.setClassController(this);
-
-            Stage stage = (Stage) teacherTable.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
 }

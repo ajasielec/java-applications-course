@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+
         try{
             Parent root = FXMLLoader.load(getClass().getResource("classContainer.fxml"));
             stage.setTitle("Class Container");

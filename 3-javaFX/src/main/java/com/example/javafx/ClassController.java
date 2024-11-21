@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -23,7 +22,6 @@ import java.io.IOException;
 public class ClassController {
     public static ObservableList<TeacherGroup> groupList = FXCollections.observableArrayList();
 
-
     @FXML
     private TableView<TeacherGroup> groupTable;
     @FXML
@@ -32,20 +30,23 @@ public class ClassController {
     private TableColumn<TeacherGroup, Integer> capacityColumn;
     @FXML
     private TableColumn<TeacherGroup, Void> actionColumn;
-    @FXML
-    private Button addButton;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
-    // private TeachersController teachersController;
     private AddGroupController addGroupController;
 
-
     static{
-        groupList.add(new TeacherGroup("Math", 3));
-        groupList.add(new TeacherGroup("English", 5));
+        groupList.add(new TeacherGroup("Math", 5));
+        groupList.add(new TeacherGroup("English", 3));
+
+        groupList.get(0).addTeacher(new Teacher("John", "Doe", TeacherCondition.present, 1990, 5000));
+        groupList.get(0).addTeacher(new Teacher("Jane", "Smith", TeacherCondition.absent, 1985, 6000));
+        groupList.get(0).addTeacher(new Teacher("Alice", "Johnson", TeacherCondition.sick, 1980, 7000));
+        groupList.get(0).addTeacher(new Teacher("Bob", "Brown", TeacherCondition.present, 1975, 5500));
+        groupList.get(1).addTeacher(new Teacher("Alice", "Johnson", TeacherCondition.sick, 1980, 7000));
+        groupList.get(1).addTeacher(new Teacher("Bob", "Brown", TeacherCondition.present, 1975, 5500));
     }
 
 

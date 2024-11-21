@@ -30,14 +30,9 @@ public class AddTeacherController {
     private Scene scene;
     private Parent root;
 
-    private TeachersController teachersController;
     private TeacherCondition selectedCondition = TeacherCondition.absent;
     private TeacherGroup currentGroup = GroupManager.getCurrentGroup();
 
-
-    public void setClassController(TeachersController teachersController) {
-        this.teachersController = teachersController;
-    }
 
     public void setConditionPresent(ActionEvent actionEvent) {
         selectedCondition = TeacherCondition.present;
@@ -61,7 +56,6 @@ public class AddTeacherController {
 
     @FXML
     void submit(ActionEvent actionEvent) {
-        System.out.println("Current group: " + currentGroup);
         try{
             // user input
             String firstName = firstNameTextField.getText();
@@ -71,23 +65,16 @@ public class AddTeacherController {
             TeacherCondition condition = selectedCondition;
 
             // creating new teacher
-            Teacher newTeacher = new Teacher(firstName, lastName, condition, salary, birthYear);
+            Teacher newTeacher = new Teacher(firstName, lastName, condition, birthYear, salary);
 
             // adding teacher to current group
             if (currentGroup != null) {
                 currentGroup.addTeacher(newTeacher);
             }
 
-            // adding new teacher to table
-            // teachersController.addTeacher(newTeacher);
-
             //change scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
             root = loader.load();
-            // teachersController = loader.getController();
-            // teachersController.setCurrentGroup(currentGroup);
-            // teachersController.displayTitle(currentGroup.getName());
-
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -104,11 +91,6 @@ public class AddTeacherController {
         // change scene
         FXMLLoader loader = new FXMLLoader(getClass().getResource("teachersScene.fxml"));
         root = loader.load();
-
-        // teachersController = loader.getController();
-        // teachersController.setCurrentGroup(currentGroup);
-        // teachersController.displayTitle(currentGroup.getName());
-
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -122,5 +104,4 @@ public class AddTeacherController {
         alert.setContentText(s);
         alert.showAndWait();
     }
-
 }
