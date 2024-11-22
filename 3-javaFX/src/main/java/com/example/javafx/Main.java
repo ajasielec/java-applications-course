@@ -15,7 +15,7 @@ public class Main extends Application {
 
         try{
             Parent root = FXMLLoader.load(getClass().getResource("classContainer.fxml"));
-            stage.setTitle("Class Container");
+            stage.setTitle("Teacher Management System");
             stage.setScene(new Scene(root));
             stage.show();
         } catch(Exception e){

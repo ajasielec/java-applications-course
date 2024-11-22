@@ -45,6 +45,9 @@ public class ClassController {
         groupList.get(0).addTeacher(new Teacher("Jane", "Smith", TeacherCondition.absent, 1985, 6000));
         groupList.get(0).addTeacher(new Teacher("Alice", "Johnson", TeacherCondition.sick, 1980, 7000));
         groupList.get(0).addTeacher(new Teacher("Bob", "Brown", TeacherCondition.present, 1975, 5500));
+        groupList.get(0).addTeacher(new Teacher("Adam", "Smith", TeacherCondition.absent, 1985, 6500));
+
+
         groupList.get(1).addTeacher(new Teacher("Alice", "Johnson", TeacherCondition.sick, 1980, 7000));
         groupList.get(1).addTeacher(new Teacher("Bob", "Brown", TeacherCondition.present, 1975, 5500));
     }
