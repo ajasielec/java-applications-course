@@ -1,45 +1,61 @@
+import repository.GroupRepository;
+import repository.TeacherRepository;
 import entity.Teacher;
+import entity.TeacherCondition;
 import entity.Teachergroup;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+
 public class Main {
     public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
+        TeacherRepository teacherRepo = new TeacherRepository();
 
-        try {
-            transaction.begin();
+        // ADDING A TEACHER
+        Teacher teacher1 = new Teacher();
+        teacher1.setFirstName("Karol");
+        teacher1.setLastName("Laudanski");
+        teacher1.setSalary(120);
+        teacher1.setBirthYear(1940);
+        teacher1.setStatus(TeacherCondition.SICK);
 
-            Teachergroup teachergroup = new Teachergroup();
-            teachergroup.setName("Dupa");
-            teachergroup.setMaxTeachers(12);
-            teachergroup.setCapacity(12);
+//         teacherRepo.addTeacher(teacher1);
 
-            entityManager.persist(teachergroup);
+        // SEARCHING TEACHER BY ID
+//        Teacher foundTeacher = teacherRepo.getTeacher(2);
+//        if (foundTeacher != null) {
+//            System.out.println("Founded teacher: " + foundTeacher.getFirstName() + " " + foundTeacher.getLastName());
+//        } else {
+//            System.out.println("No teacher found");
+//        }
 
-            Teacher teacher1 = new Teacher();
-            teacher1.setFirstName("John");
-            teacher1.setLastName("Smith");
-            teacher1.setSalary(12000);
-            teacher1.setBirthYear(1999);
-            teacher1.setStatus("SICK");
-            teacher1.setTeachergroup(teachergroup);
+        // DELETING TEACHEr
+//        teacherRepo.removeTeacher(10);
 
-            entityManager.persist(teacher1);
 
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-            entityManagerFactory.close();
-        }
+        GroupRepository groupRepo = new GroupRepository();
+
+        // ADDING A GROUP
+//        Teachergroup group = new Teachergroup();
+//        group.setName("Biology");
+//        group.setMaxTeachers(12);
+//
+//        groupRepo.addGroup(group);
+
+        // DELETING A GROUP
+//        groupRepo.removeGroup(8);
+
+        // ADDING TEACHER TO GROUP
+//        groupRepo.addTeacherToGroup(1, teacher1);
+
+        // REMOVING TEACHER FROM GROUP
+//        groupRepo.removeTeacherFromGroup(1, 13);
+
+        // SEARCH TEACHER IN GROUP
+
+
     }
 }

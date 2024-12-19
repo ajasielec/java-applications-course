@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "first_name", nullable = false, length = 50)
@@ -16,9 +16,9 @@ public class Teacher {
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Lob
-    @Column(name = "status", nullable = true)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TeacherCondition status;
 
     @Column(name = "birth_year", nullable = true)
     private Integer birthYear;
@@ -30,10 +30,10 @@ public class Teacher {
     @JoinColumn(name = "teacher_group_id", referencedColumnName = "id")
     private Teachergroup teachergroup;
 
+    // getters and setters
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -41,7 +41,6 @@ public class Teacher {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -49,23 +48,20 @@ public class Teacher {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getStatus() {
+    public TeacherCondition getStatus() {
         return status;
     }
-
-    public void setStatus(String status) {
+    public void setStatus(TeacherCondition status) {
         this.status = status;
     }
 
     public Integer getBirthYear() {
         return birthYear;
     }
-
     public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
     }
@@ -73,13 +69,11 @@ public class Teacher {
     public Integer getSalary() {
         return salary;
     }
-
     public void setSalary(Integer salary) {
         this.salary = salary;
     }
 
     public Teachergroup getTeachergroup() { return teachergroup; }
-
     public void setTeachergroup(Teachergroup teachergroup) { this.teachergroup = teachergroup; }
 
 }
