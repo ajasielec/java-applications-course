@@ -1,4 +1,6 @@
+import entity.Rate;
 import repository.GroupRepository;
+import repository.RateRepository;
 import repository.TeacherRepository;
 import entity.Teacher;
 import entity.TeacherCondition;
@@ -15,6 +17,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         TeacherRepository teacherRepo = new TeacherRepository();
+        GroupRepository groupRepo = new GroupRepository();
+        RateRepository rateRepo = new RateRepository();
 
         // ADDING A TEACHER
         Teacher teacher1 = new Teacher();
@@ -38,7 +42,6 @@ public class Main {
 //        teacherRepo.removeTeacher(10);
 
 
-        GroupRepository groupRepo = new GroupRepository();
 
         // ADDING A GROUP
 //        Teachergroup group = new Teachergroup();
@@ -80,8 +83,17 @@ public class Main {
         int count = groupRepo.countByConditionInGroup(8, TeacherCondition.SICK);
         System.out.println("Found " + count + " sick teacher(s) in group");
 
+
+
+        // RATING
+        rateRepo.addRate(2, 6, "Niezle");
+        rateRepo.addRate(2, 2);
+        rateRepo.addRate(1, 3);
+
+
         // SUMMARY
         groupRepo.summary();
+
 
 
     }

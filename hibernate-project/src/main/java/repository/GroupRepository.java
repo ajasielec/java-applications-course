@@ -7,12 +7,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import javax.swing.*;
 import java.util.List;
 
 public class GroupRepository {
@@ -198,17 +194,32 @@ public class GroupRepository {
         List<Teachergroup> groups = em.createQuery("SELECT g FROM Teachergroup g", Teachergroup.class).getResultList();
 
         for (Teachergroup group : groups) {
+            // counting teachers
             String queryStr = "SELECT COUNT(t) FROM Teacher t WHERE t.teachergroup.id = :groupId";
             Query query = (Query) em.createQuery(queryStr);
             query.setParameter("groupId", group.getId());
 
             Long totalTeachers = (Long) query.getSingleResult();
 
+            // calculating occupancy
             int maxTeachers = group.getMaxTeachers();
-
             double occupancy = (double) totalTeachers / maxTeachers * 100;
 
-            System.out.println("Group: " + group.getName() + " - " + String.format("%.2f", occupancy) + "% occupancy");
+            // calculating average rate and its count
+            String queryRatesSummary = "SELECT COUNT(r), COALESCE(AVG(r.rate), 0) " +
+                                        "FROM Rate r " +
+                                        "WHERE r.group.id = :groupId";
+            Query rateSummaryQuery = (Query) em.createQuery(queryRatesSummary);
+            rateSummaryQuery.setParameter("groupId", group.getId());
+            Object[] rateSummaryResult = (Object[]) rateSummaryQuery.getSingleResult();
+            Long totalRates = (Long) rateSummaryResult[0];
+            Double averageRate = (Double) rateSummaryResult[1];
+
+            System.out.println("Group: " + group.getName());
+            System.out.println("Occupancy: " + String.format("%.2f", occupancy) + "%");
+            System.out.println("Number of rates: " + totalRates);
+            System.out.println("Average rate: " + String.format("%.2f", averageRate));
+            System.out.println("---------------------------------------------");
         }
         em.close();
     }

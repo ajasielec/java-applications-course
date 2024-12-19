@@ -12,7 +12,7 @@ public class Rate {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "rate")
+    @Column(name = "rate", nullable = false)
     private Integer rate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -21,13 +21,12 @@ public class Rate {
     private Teachergroup group;
 
     @Lob
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment", nullable = true)
     private String comment;
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -35,7 +34,6 @@ public class Rate {
     public Integer getRate() {
         return rate;
     }
-
     public void setRate(Integer rate) {
         this.rate = rate;
     }
@@ -43,7 +41,6 @@ public class Rate {
     public Teachergroup getGroup() {
         return group;
     }
-
     public void setGroup(Teachergroup group) {
         this.group = group;
     }
@@ -51,7 +48,6 @@ public class Rate {
     public String getComment() {
         return comment;
     }
-
     public void setComment(String comment) {
         this.comment = comment;
     }
