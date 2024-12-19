@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -27,12 +29,12 @@ public class Main {
         // SEARCHING TEACHER BY ID
 //        Teacher foundTeacher = teacherRepo.getTeacher(2);
 //        if (foundTeacher != null) {
-//            System.out.println("Founded teacher: " + foundTeacher.getFirstName() + " " + foundTeacher.getLastName());
+//            System.out.println("Found teacher: " + foundTeacher.getFirstName() + " " + foundTeacher.getLastName());
 //        } else {
 //            System.out.println("No teacher found");
 //        }
 
-        // DELETING TEACHEr
+        // DELETING TEACHER
 //        teacherRepo.removeTeacher(10);
 
 
@@ -54,7 +56,32 @@ public class Main {
         // REMOVING TEACHER FROM GROUP
 //        groupRepo.removeTeacherFromGroup(1, 13);
 
+        // ADDING SALARY
+//        groupRepo.addSalary(8, 3, 100);
+
+        // CHANGE CONDITION
+//        groupRepo.changeCondition(8, 3, TeacherCondition.SICK);
+
         // SEARCH TEACHER IN GROUP
+//        Teacher foundTeacher = groupRepo.searchTeacher(8, "Smith");
+//        if (foundTeacher != null) {
+//            System.out.println("Found teacher: " + foundTeacher.getFirstName() + " " + foundTeacher.getLastName());
+//        } else {
+//            System.out.println("No teacher found");
+//        }
+
+        // SEARCH PARTIAL
+        List<Teacher> foundTeachers = groupRepo.searchPartialInGroup(8, "A");
+        for (Teacher teacher : foundTeachers) {
+            System.out.println("Found teacher: " + teacher.getFirstName() + " " + teacher.getLastName());
+        }
+
+        // COUNT BY CONDITION
+        int count = groupRepo.countByConditionInGroup(8, TeacherCondition.SICK);
+        System.out.println("Found " + count + " sick teacher(s) in group");
+
+        // SUMMARY
+        groupRepo.summary();
 
 
     }
