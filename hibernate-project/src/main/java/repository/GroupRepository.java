@@ -40,21 +40,58 @@ public class GroupRepository {
         return group;
     }
 
-    public void addTeacherToGroup(int groupId, Teacher teacher) {
+    public void addTeacherToGroup(int groupId, int teacherId) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        Teachergroup group = em.find(Teachergroup.class, groupId);
-        if (group != null) {
-            teacher.setTeachergroup(group);
-            // group.getTeachers().add(teacher);
+        try{
+            Teachergroup group = em.find(Teachergroup.class, groupId);
+            Teacher teacher = em.find(Teacher.class, teacherId);
 
-            em.merge(group);
-            em.persist(teacher);
+            if (group != null) {
+                // checking if teacher exists in this group
+                String queryCheckTeacherInGroup = "SELECT COUNT(t) FROM Teacher t WHERE t.id = :teacherId AND t.teachergroup.id = :groupId";
+                Query checkTeacherQuery = (Query) em.createQuery(queryCheckTeacherInGroup);
+                checkTeacherQuery.setParameter("teacherId", teacherId);
+                checkTeacherQuery.setParameter("groupId", groupId);
+                Long isTeacherInGroup = (Long) checkTeacherQuery.getSingleResult();
+
+                if (isTeacherInGroup > 0) {
+                    System.out.println("Teacher " + teacher.getFirstName() + " " + teacher.getLastName() + " is already in group " + group.getName() + ".");
+                    em.getTransaction().rollback();
+                    return;
+                }
+
+                // counting teachers in group
+                String queryTeachersCount = "SELECT COUNT(t) FROM Teacher t WHERE t.teachergroup.id = :groupId";
+                Query teachersCountQuery = (Query) em.createQuery(queryTeachersCount);
+                teachersCountQuery.setParameter("groupId", groupId);
+                Long teachersCount = (Long) teachersCountQuery.getSingleResult();
+
+                if (teachersCount < group.getMaxTeachers()) {
+                    teacher.setTeachergroup(group);
+                    em.persist(teacher);
+                    em.getTransaction().commit();
+                    System.out.println("Teacher " + teacher.getFirstName() + " " + teacher.getLastName() + " successfully added to group " + group.getName());
+                } else {
+                    System.out.println("Cannot add teacher " + teacher.getFirstName() + " " + teacher.getLastName() + " to group " + group.getName() +
+                            " - maximum number of teachers (" + group.getMaxTeachers() + ") has been reached.");
+                    em.getTransaction().rollback();
+                }
+            } else {
+                System.out.println("Group with ID " + groupId + " not found.");
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e){
+            System.out.println("An error occurred: " + e.getMessage());
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally{
+                em.close();
         }
 
-        em.getTransaction().commit();
-        em.close();
+
     }
 
     public void removeTeacherFromGroup(int groupId, int teacherId) {

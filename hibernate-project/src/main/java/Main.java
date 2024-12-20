@@ -22,13 +22,13 @@ public class Main {
 
         // ADDING A TEACHER
         Teacher teacher1 = new Teacher();
-        teacher1.setFirstName("Karol");
-        teacher1.setLastName("Laudanski");
-        teacher1.setSalary(120);
-        teacher1.setBirthYear(1940);
-        teacher1.setStatus(TeacherCondition.SICK);
+        teacher1.setFirstName("Adam");
+        teacher1.setLastName("Nowak");
+        teacher1.setSalary(5000);
+        teacher1.setBirthYear(1987);
+        teacher1.setStatus(TeacherCondition.ABSENT);
 
-//         teacherRepo.addTeacher(teacher1);
+//        teacherRepo.addTeacher(teacher1);
 
         // SEARCHING TEACHER BY ID
 //        Teacher foundTeacher = teacherRepo.getTeacher(2);
@@ -39,7 +39,7 @@ public class Main {
 //        }
 
         // DELETING TEACHER
-//        teacherRepo.removeTeacher(10);
+//        teacherRepo.removeTeacher(20);
 
 
 
@@ -54,10 +54,10 @@ public class Main {
 //        groupRepo.removeGroup(8);
 
         // ADDING TEACHER TO GROUP
-//        groupRepo.addTeacherToGroup(1, teacher1);
+//        groupRepo.addTeacherToGroup(8, 20);
 
         // REMOVING TEACHER FROM GROUP
-//        groupRepo.removeTeacherFromGroup(1, 13);
+//        groupRepo.removeTeacherFromGroup(9, 5);
 
         // ADDING SALARY
 //        groupRepo.addSalary(8, 3, 100);
@@ -86,9 +86,9 @@ public class Main {
 
 
         // RATING
-        rateRepo.addRate(2, 6, "Niezle");
-        rateRepo.addRate(2, 2);
-        rateRepo.addRate(1, 3);
+//        rateRepo.addRate(8, 5, "Dobrze");
+//        rateRepo.addRate(8, 1);
+//        rateRepo.addRate(8, 4);
 
 
         // SUMMARY
