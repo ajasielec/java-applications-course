@@ -262,6 +262,16 @@ public class GroupRepository {
     }
 
 
-
-
+    public List<Teachergroup> getAllGroups() {
+        EntityManager em = emf.createEntityManager();
+        List<Teachergroup> groups = null;
+        try {
+            groups = em.createQuery("SELECT g FROM Teachergroup g", Teachergroup.class).getResultList();
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching all groups: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return groups;
+    }
 }

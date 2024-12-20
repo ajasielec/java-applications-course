@@ -86,4 +86,17 @@ public class RateRepository {
             em.close();
         }
     }
+
+    public List<Rate> getAllRates() {
+        EntityManager em = emf.createEntityManager();
+        List<Rate> rates = null;
+        try {
+            rates = em.createQuery("SELECT r FROM Rate r", Rate.class).getResultList();
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching all rates: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return rates;
+    }
 }

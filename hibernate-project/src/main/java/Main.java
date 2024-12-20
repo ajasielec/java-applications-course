@@ -11,6 +11,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,6 +39,8 @@ public class Main {
             System.out.println("11. Count Teachers by Condition in Group");
             System.out.println("12. Add Rate to Group");
             System.out.println("13. Summary");
+            System.out.println("14. Delete Group");
+            System.out.println("15. Export Database to CSV");
             System.out.println("0. Exit");
 
             int choice = scanner.nextInt();
@@ -188,6 +192,18 @@ public class Main {
                     groupRepo.summary();
                     break;
 
+                case 14:
+                    // Deleting group
+                    System.out.println("Enter group ID:");
+                    int groupIdForDelete = scanner.nextInt();
+                    groupRepo.removeGroup(groupIdForDelete);
+                    break;
+
+                case 15:
+                    // Exporting to cvs
+                    exportDatabaseToCSV();
+                    break;
+
                 case 0:
                     // Exit
                     System.out.println("Exiting the application.");
@@ -197,6 +213,36 @@ public class Main {
                 default:
                     System.out.println("Invalid option, please try again.");
             }
+        }
+    }
+
+    public static void exportDatabaseToCSV() {
+        TeacherRepository teacherRepo = new TeacherRepository();
+        GroupRepository groupRepo = new GroupRepository();
+        RateRepository rateRepo = new RateRepository();
+
+        try (FileWriter writer = new FileWriter("database_export.csv")) {
+            writer.write("Teachers\n");
+            List<Teacher> teachers = teacherRepo.getAllTeachers();
+            for (Teacher teacher : teachers) {
+                writer.write(teacher.getId() + "," + teacher.getFirstName() + "," + teacher.getLastName() + "," + teacher.getSalary() + "\n");
+            }
+
+            writer.write("\nGroups\n");
+            List<Teachergroup> groups = groupRepo.getAllGroups();
+            for (Teachergroup group : groups) {
+                writer.write(group.getId() + "," + group.getName() + "," + group.getMaxTeachers() + "\n");
+            }
+
+            writer.write("\nRates\n");
+            List<Rate> rates = rateRepo.getAllRates();
+            for (Rate rate : rates) {
+                writer.write(rate.getId() + "," + rate.getRate() + "," + rate.getComment() + "\n");
+            }
+
+            System.out.println("Database exported successfully to 'database_export.csv'.");
+        } catch (IOException e) {
+            System.out.println("Error exporting database to CSV: " + e.getMessage());
         }
     }
 }
