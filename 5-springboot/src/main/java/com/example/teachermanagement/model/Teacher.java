@@ -1,13 +1,9 @@
 package com.example.teachermanagement.model;
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +18,8 @@ public class Teacher {
     private int birthYear;
     private int salary;
 
-    @Column(nullable = true)
-    private Long groupId;
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = true)
+    private Group group;
 
 }

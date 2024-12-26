@@ -1,19 +1,15 @@
 package com.example.teachermanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,28 +19,12 @@ public class Group {
 
     private int maxTeacher;
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Teacher> teachers;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Double rating;
 
-    public String getName() {
-        return name;
-    }
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rate> rates = new ArrayList<>();
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMaxTeacher() {
-        return maxTeacher;
-    }
-
-    public void setMaxTeacher(int maxTeacher) {
-        this.maxTeacher = maxTeacher;
-    }
 }
