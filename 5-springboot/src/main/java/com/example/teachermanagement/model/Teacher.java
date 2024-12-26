@@ -1,10 +1,7 @@
-package com.example.model;
+package com.example.teachermanagement.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -27,4 +24,5 @@ public class Teacher {
 
     @Column(nullable = true)
     private Long groupId;
+
 }

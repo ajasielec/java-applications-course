@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.teachermanagement.model;
 
 public enum TeacherCondition {
     PRESENT,
