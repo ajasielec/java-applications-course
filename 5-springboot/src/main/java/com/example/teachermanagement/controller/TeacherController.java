@@ -2,7 +2,6 @@ package com.example.teachermanagement.controller;
 
 import com.example.teachermanagement.model.Teacher;
 import com.example.teachermanagement.service.TeacherService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,19 +15,33 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    @PostMapping()
-    public ResponseEntity<Teacher> addTeacher(@RequestBody Teacher teacher) {
-        return ResponseEntity.ok(teacherService.addTeacher(teacher));
+    @GetMapping
+    public List<Teacher> getAllTeachers() {
+        return teacherService.getAllTeachers();
+    }
+
+    @PostMapping
+    public Teacher addTeacher(@RequestBody Teacher teacher) {
+        return teacherService.addTeacher(teacher);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable Long id) {
+    public void deleteTeacher(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
-        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Teacher>> getAllTeachers() {
-        return ResponseEntity.ok(teacherService.getAllTeachers());
+    @GetMapping("/csv")
+    public String getAllTeachersAsCSV() {
+        List<Teacher> teachers = teacherService.getAllTeachers();
+        StringBuilder csv = new StringBuilder("id,firstName,lastName,teacherCondition,birthYear,salary\n");
+        for (Teacher teacher : teachers) {
+            csv.append(teacher.getId()).append(",")
+                    .append(teacher.getFirstName()).append(",")
+                    .append(teacher.getLastName()).append(",")
+                    .append(teacher.getTeacherCondition()).append(",")
+                    .append(teacher.getBirthYear()).append(",")
+                    .append(teacher.getSalary()).append("\n");
+        }
+        return csv.toString();
     }
 }

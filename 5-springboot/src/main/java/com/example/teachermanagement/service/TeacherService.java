@@ -20,6 +20,9 @@ public class TeacherService {
     }
 
     public void deleteTeacher(Long id) {
+        if (!teacherRepository.existsById(id)) {
+            throw new IllegalArgumentException("Teacher not found");
+        }
         teacherRepository.deleteById(id);
     }
 
@@ -27,7 +30,4 @@ public class TeacherService {
         return teacherRepository.findAll();
     }
 
-    public Optional<Teacher> getTeacherById(Long id) {
-        return teacherRepository.findById(id);
-    }
 }

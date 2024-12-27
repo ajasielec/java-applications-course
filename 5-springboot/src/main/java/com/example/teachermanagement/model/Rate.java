@@ -1,10 +1,8 @@
 package com.example.teachermanagement.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Data
 public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,5 +12,12 @@ public class Rate {
 
     @ManyToOne
     @JoinColumn(name="group_id", nullable = false)
-    private Group group;
+    private TeacherGroup group;
+
+    public void setGroup(TeacherGroup group) {
+        this.group = group;
+    }
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 }

@@ -15,6 +15,11 @@ public class RatingController {
         this.rateService = rateService;
     }
 
+    @GetMapping
+    public List<Rate> getRatings() {
+        return rateService.getAllRates();
+    }
+
     @PostMapping
     public Rate addRating(@RequestParam Long groupId, @RequestParam Double rating) {
         return rateService.addRate(groupId, rating);

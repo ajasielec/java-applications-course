@@ -1,16 +1,12 @@
 package com.example.teachermanagement.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
-@Data
-public class Group {
+public class TeacherGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,11 +16,22 @@ public class Group {
     private int maxTeacher;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Teacher> teachers;
+    private List<Teacher> teachers;
 
-    private Double rating;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rate> rates = new ArrayList<>();
 
+    //getter and setters
+    public int getMaxTeacher() {
+        return maxTeacher;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public List<Rate> getRates() {
+        return rates;
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.teachermanagement.service;
 
-import com.example.teachermanagement.model.Group;
+import com.example.teachermanagement.model.TeacherGroup;
 import com.example.teachermanagement.model.Rate;
 import com.example.teachermanagement.repository.GroupRepository;
 import com.example.teachermanagement.repository.RateRepository;
@@ -19,7 +19,7 @@ public class RateService {
     }
 
     public Rate addRate(Long groupId, Double rating) {
-        Group group = groupRepository.findById(groupId)
+        TeacherGroup group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
 
         Rate rate = new Rate();
@@ -30,8 +30,12 @@ public class RateService {
     }
 
     public List<Rate> getRatesForGroup(Long groupId) {
-        Group group = groupRepository.findById(groupId)
+        TeacherGroup group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
         return group.getRates();
+    }
+
+    public List<Rate> getAllRates() {
+        return rateRepository.findAll();
     }
 }
