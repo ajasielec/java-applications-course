@@ -18,14 +18,7 @@ public class RateService {
         this.groupRepository = groupRepository;
     }
 
-    public Rate addRate(Long groupId, Double rating) {
-        TeacherGroup group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException("Group not found"));
-
-        Rate rate = new Rate();
-        rate.setGroup(group);
-        rate.setRating(rating);
-
+    public Rate addRate(Rate rate) {
         return rateRepository.save(rate);
     }
 

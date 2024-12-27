@@ -1,5 +1,6 @@
 package com.example.teachermanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,12 @@ public class TeacherGroup {
     private int maxTeacher;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Teacher> teachers;
 
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Rate> rates = new ArrayList<>();
 
     public TeacherGroup() {

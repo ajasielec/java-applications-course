@@ -21,8 +21,8 @@ public class RatingController {
     }
 
     @PostMapping
-    public Rate addRating(@RequestParam Long groupId, @RequestParam Double rating) {
-        return rateService.addRate(groupId, rating);
+    public Rate addRating(@RequestBody Rate rate) {
+        return rateService.addRate(rate);
     }
 
     @GetMapping("/{groupId}")
