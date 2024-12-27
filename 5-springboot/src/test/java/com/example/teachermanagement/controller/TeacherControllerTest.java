@@ -8,16 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 public class TeacherControllerTest {
@@ -63,6 +65,28 @@ public class TeacherControllerTest {
                 .andExpect(status().isOk());
 
         verify(teacherService, times(1)).deleteTeacher(1L);
+    }
+
+    @Test
+    void testGetAllTeachersAsCSV() throws Exception {
+        List<Teacher> teachers = new ArrayList<>();
+        teachers.add(new Teacher(1L, "John", "Doe", TeacherCondition.SICK, 1998, 5000));
+        teachers.add(new Teacher(2L, "Jane", "Smith", TeacherCondition.DELEGATION, 1985, 5500));
+
+        when(teacherService.getAllTeachers()).thenReturn(teachers);
+
+        MvcResult result = mockMvc.perform(get("/api/teacher/csv"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println("Response content: " + result.getResponse().getContentAsString());
+
+
+        mockMvc.perform(get("/api/teacher/csv"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("id,firstName,lastName,teacherCondition,birthYear,salary\n" +
+                        "1,John,Doe,SICK,1998,5000\n" +
+                        "2,Jane,Smith,DELEGATION,1985,5500\n"));
     }
 
 }

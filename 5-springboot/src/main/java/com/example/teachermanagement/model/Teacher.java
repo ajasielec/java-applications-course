@@ -20,6 +20,16 @@ public class Teacher {
     @JoinColumn(name = "group_id", nullable = true)
     private TeacherGroup group;
 
+    public Teacher() {}
+    public Teacher(Long id, String firstName, String lastName, TeacherCondition teacherCondition, int birthYear, int salary) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.teacherCondition = teacherCondition;
+        this.birthYear = birthYear;
+        this.salary = salary;
+    }
+
     public Long getId() {
         return id;
     }
@@ -40,7 +50,7 @@ public class Teacher {
         return birthYear;
     }
     public void setBirthYear(int birthYear) {this.birthYear = birthYear;}
-    public double getSalary() {
+    public int getSalary() {
         return salary;
     }
     public void setSalary(int salary) {this.salary = salary;}
