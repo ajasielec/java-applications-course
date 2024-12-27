@@ -1,6 +1,5 @@
 package com.example.teachermanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,5 +24,4 @@ public class Rate {
         this.rating = rating;
     }
     public double getRating() {return rating;}
-
 }

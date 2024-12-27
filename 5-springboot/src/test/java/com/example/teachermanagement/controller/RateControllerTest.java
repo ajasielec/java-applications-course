@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -52,7 +51,6 @@ public class RateControllerTest {
                 .andExpect(jsonPath("$.rating").value(5))
                 .andExpect(jsonPath("$.group.id").value(1));
 
-        // Weryfikujemy, że metoda serwisu została wywołana raz
         verify(rateService, times(1)).addRate(any(Rate.class));
     }
 
